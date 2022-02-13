@@ -3,6 +3,33 @@ from points import *
 
 
 class Diagram:
+
+    @staticmethod
+    def from_string_representation(rep: list[list[str]]):
+        D = Diagram()
+
+        point_names = set()
+        for c, tc in rep:
+            for x in c.split(","):
+                point_names.add(x.strip()[:-1].replace("+", "").replace("-", ""))
+            for x in tc.split(","):
+                point_names.add(x.strip()[:-1].replace("+", "").replace("-", ""))
+
+        points = {P: Point(P) for P in point_names}
+
+        def parse_curve(c, a) -> None:
+            for x in c.split(","):
+                triplet = int(x.strip()[-1])
+                name = x.strip()[:-1].replace("+", "").replace("-", "")
+                a.append(+points[name][triplet] if x[0] != "-" else -points[name][triplet])
+
+        for i, (c, tc) in enumerate(rep):
+            a, ta = D.new_curve(f"c{i}")
+            parse_curve(c, a)
+            parse_curve(tc, ta)
+
+        return D
+
     def __init__(self):
         self._curves = []
 

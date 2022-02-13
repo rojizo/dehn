@@ -18,6 +18,10 @@ if __name__ == '__main__':
     print(D.is_realizable())
 
     print(D)
+
+
+    D=Diagram.from_string_representation([["P1,-Q1,Q1,Q2,-P2,-P1", "P2,-Q2,-Q3,Q3,-P3,P3"]])
+    print(D)
     # %%
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
