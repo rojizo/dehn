@@ -36,7 +36,7 @@ class Diagram:
         classes = [{(sign, i, s)} for i in range(len(self._curves)) for s in [0, 1] for sign in [-1, 1]]
 
         def identify(a, b):
-            classes[relations[a]].union(classes[relations[b]])
+            classes[relations[a]].update(classes[relations[b]])
             for j in classes[relations[b]]:
                 relations[j] = relations[a]
             # TODO: make some cleanup... not really needed but could be fine
@@ -80,10 +80,14 @@ class Diagram:
                 identify((tcrossing_curve_sign, tcrossing_curve_number, (-tP).curve._sisterness),
                          (crossing_curve_sign, crossing_curve_number, (-P).curve._sisterness))
 
-            # Check if it is realizable
-            for i in range(len(self._curves)):
-                for s in [0, 1]:
-                    if relations[(1, i, s)] == relations[(-1, i, s)]:
-                        return False
+
+        print(relations)
+        print(classes)
+
+        # Check if it is realizable
+        for i in range(len(self._curves)):
+            for s in [0, 1]:
+                if relations[(1, i, s)] == relations[(-1, i, s)]:
+                    return False
 
         return True
