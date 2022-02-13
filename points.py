@@ -1,5 +1,3 @@
-from curve import Curve
-
 
 class Point:
     def __init__(self, ID):
@@ -15,6 +13,9 @@ class Point:
     def diagram_point(self, i: int):
         return self._triplet[str(i)]
 
+    def __getitem__(self, item):
+        return self.diagram_point(item)
+
 
 class DiagramPoint:
     def __init__(self, P3D: Point, num_in_triplet: int):
@@ -29,8 +30,8 @@ class DiagramPoint:
         self._manifold_point = P3D
         self._num_in_triplet = num_in_triplet
 
-        self._negative = None
-        self._positive = None
+        self._negative = SignedDiagramPoint(self, -1)
+        self._positive = SignedDiagramPoint(self, +1)
 
     def __repr__(self):
         return f"{repr(self._manifold_point)}_{self._num_in_triplet}"
@@ -39,22 +40,18 @@ class DiagramPoint:
         return self.positive()
 
     def positive(self):
-        if not (self._positive in None):
-            self._positive = SignedDiagramPoint(self, +1)
         return self._positive
 
     def __neg__(self):
         return self.negative()
 
     def negative(self):
-        if not (self._negative is None):
-            self._negative = SignedDiagramPoint(self, -1)
         return self._negative
 
 
 class SignedDiagramPoint:
     def __init__(self, P2D: DiagramPoint, sign: int):
-        if type(P2D) != P2D:
+        if type(P2D) != DiagramPoint:
             raise TypeError(f"Type of P2D must be DiagramPoint but it is {type(P2D)}")
         if type(sign) != int:
             raise TypeError(f"`sign' must be integer but it is {type(sign)}")
@@ -70,7 +67,7 @@ class SignedDiagramPoint:
     def __repr__(self):
         return ("+" if self._sign == 1 else "-") + repr(self._diagram_point)
 
-    def add_to_curve(self, curve: Curve):
+    def add_to_curve(self, curve):
         curve.append(self)
 
     def __next__(self):
