@@ -1,8 +1,7 @@
-
 class Point:
     def __init__(self, ID):
         self._ID = ID
-        self._triplet = {str(i): DiagramPoint(self, i) for i in [1,2,3]}
+        self._triplet = {str(i): DiagramPoint(self, i) for i in [1, 2, 3]}
 
     def __repr__(self):
         return str(self._ID)
@@ -72,3 +71,16 @@ class SignedDiagramPoint:
 
     def __next__(self):
         return self._curve[self._position_in_diagram + 1]
+
+    def is_positive(self) -> bool:
+        return self._sign == 1
+
+    def is_negative(self) -> bool:
+        return self._sign == -1
+
+    @property
+    def curve(self):
+        return self._curve
+
+    def __neg__(self):
+        return self._diagram_point.negative() if self._sign == 1 else self._diagram_point.positive()

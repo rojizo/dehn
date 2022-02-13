@@ -8,7 +8,7 @@ class Curve(list[SignedDiagramPoint]):
         self._name = None
 
     def __str__(self) -> str:
-        rep = ",".join([str(x) for x in super()])
+        rep = ",".join([str(x) for x in self])
         rep = f"[{rep}]"
         if not(self._name is None):
             rep = f"{self._name} = {rep}"
@@ -19,6 +19,7 @@ class Curve(list[SignedDiagramPoint]):
             if sisterCurve._sister is None:
                 self._sister = sisterCurve
                 sisterCurve._sister = self
+                sisterCurve._name = "τ" + self._name
             else:
                 raise ValueError("The given sisterCurve is already set")
         else:
@@ -34,3 +35,7 @@ class Curve(list[SignedDiagramPoint]):
         point._position_in_diagram = len(self)
         point._curve = self
         super().append(point)
+
+    def extend(self, __iterable) -> None:
+        for x in __iterable:
+            self.append(x)
