@@ -111,6 +111,17 @@ class Diagram:
         print(relations)
         print(classes)
 
+        # Connectivity of the graph
+        # TODO: implement the algorithm ourselves
+        import networkx as nx
+        import matplotlib.pyplot as plt
+        G = nx.Graph()
+        for alpha in (x for c in self._curves for x in c):
+            for i in range(len(alpha)):
+                G.add_edge(str(alpha[i].diagram_point), str(alpha[(i+1)%len(alpha)].diagram_point))
+        if not nx.is_connected(G):
+            return False
+
         # Check if it is realizable
         for i in range(len(self._curves)):
             for s in [0, 1]:

@@ -25,9 +25,6 @@ class Curve(list[SignedDiagramPoint]):
         else:
             raise ValueError("You cannot assign the sisterCurve twice")
 
-    def __getitem__(self, item: int) -> SignedDiagramPoint:
-        return super()[item % len(super())]
-
     def append(self, point: SignedDiagramPoint) -> None:
         if type(point) != SignedDiagramPoint:
             raise TypeError(f"__object should be a SignedDiagramPoint but it is {type(SignedDiagramPoint)}")

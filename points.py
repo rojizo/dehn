@@ -82,5 +82,9 @@ class SignedDiagramPoint:
     def curve(self):
         return self._curve
 
+    @property
+    def diagram_point(self):
+        return self._diagram_point
+
     def __neg__(self):
         return self._diagram_point.negative() if self._sign == 1 else self._diagram_point.positive()
